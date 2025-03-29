@@ -11,12 +11,6 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
-import os
-import dj_database_url
-
-DEBUG = os.getenv('DEBUG', 'False') == 'True'  # Set to False for production
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'your_render_backend_url').split(',')
-
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -31,7 +25,8 @@ SECRET_KEY = 'django-insecure-ism_&m#y6&(+ijd@8%(!@nfb%v-z(@yz(hsh4w@#6(b$xq5vc&
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'enchanting-moonbeam-1c0b9c.netlify.app']
+
 
 
 # Application definition
@@ -45,12 +40,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_filters',
     'rest_framework',
-     'corsheaders',
+    'corsheaders',
     'api',
 ]
 
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',  # ✅ Must be first
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -59,6 +54,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
 
 ROOT_URLCONF = 'myproject.urls'
 
@@ -84,21 +80,17 @@ WSGI_APPLICATION = 'myproject.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',  
-#         'NAME': 'projectdb',  # Replace with your actual database name
-#         'USER': 'ajaynayak',      # Replace with your PostgreSQL username
-#         'PASSWORD': 'ajay1234',  # Replace with your PostgreSQL password
-#         'HOST': 'localhost',   # Keep 'localhost' if running PostgreSQL locally
-#         'PORT': '5432',        # Default PostgreSQL port
-#     }
-# }
-
-
 DATABASES = {
-    'default': dj_database_url.config(default=os.getenv('DATABASE_URL'))
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',  
+        'NAME': 'projectdb',  # Replace with your actual database name
+        'USER': 'ajaynayak',      # Replace with your PostgreSQL username
+        'PASSWORD': 'ajay1234',  # Replace with your PostgreSQL password
+        'HOST': 'localhost',   # Keep 'localhost' if running PostgreSQL locally
+        'PORT': '5432',        # Default PostgreSQL port
+    }
 }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -134,20 +126,48 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-# STATIC_URL = 'static/'
-STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_URL = 'static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# CORS_ALLOWED_ORIGINS = [
+#     "http://localhost:3000","https://enchanting-moonbeam-1c0b9c.netlify.app",  # Allow requests from React frontend
+# ]
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",  # Allow requests from React frontend
+    "http://localhost:3000",  # React running locally
+#     "https://aquamarine-licorice-7ec3a3.netlify.app/",  # Your Netlify deployment
 ]
+# CORS_ALLOWED_ORIGINS = [
+#     "https://aquamarine-licorice-7ec3a3.netlify.app"  # Removed the trailing '/'
+# ]
+
 
 # OR (for development purposes, allow all origins)
-CORS_ALLOW_ALL_ORIGINS = True  # Not recommended for production
+# CORS_ALLOW_ALL_ORIGINS = True  # Not recommended for production
+CORS_ALLOW_CREDENTIALS = True
+
+CORS_ALLOW_METHODS = ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
+
+# CORS_ALLOW_METHODS = [
+#     "GET",
+#     "POST",
+#     "PUT",
+#     "PATCH",
+#     "DELETE",
+#     "OPTIONS",  # ✅ Ensure OPTIONS is allowed
+# ]
+
+CORS_ALLOW_HEADERS = [
+    "accept",
+    "accept-encoding",
+    "authorization",
+    "content-type",
+    "dnt",
+    "origin",
+    "user-agent",
+    "x-csrftoken",
+    "x-requested-with",
+]
