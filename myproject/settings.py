@@ -11,6 +11,12 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+import os
+import dj_database_url
+
+DEBUG = os.getenv('DEBUG', 'False') == 'True'  # Set to False for production
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'your_render_backend_url').split(',')
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -78,17 +84,21 @@ WSGI_APPLICATION = 'myproject.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',  
-        'NAME': 'projectdb',  # Replace with your actual database name
-        'USER': 'ajaynayak',      # Replace with your PostgreSQL username
-        'PASSWORD': 'ajay1234',  # Replace with your PostgreSQL password
-        'HOST': 'localhost',   # Keep 'localhost' if running PostgreSQL locally
-        'PORT': '5432',        # Default PostgreSQL port
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',  
+#         'NAME': 'projectdb',  # Replace with your actual database name
+#         'USER': 'ajaynayak',      # Replace with your PostgreSQL username
+#         'PASSWORD': 'ajay1234',  # Replace with your PostgreSQL password
+#         'HOST': 'localhost',   # Keep 'localhost' if running PostgreSQL locally
+#         'PORT': '5432',        # Default PostgreSQL port
+#     }
+# }
 
+
+DATABASES = {
+    'default': dj_database_url.config(default=os.getenv('DATABASE_URL'))
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -124,10 +134,14 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = 'static/'
+# STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
