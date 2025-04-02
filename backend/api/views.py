@@ -1,32 +1,4 @@
-# from rest_framework import viewsets
-# from rest_framework.filters import SearchFilter
-# from django_filters.rest_framework import DjangoFilterBackend
-# from .models import Item
-# from .serializers import ItemSerializer
-
-
-# from rest_framework.response import Response
-
-# class ItemViewSet(viewsets.ModelViewSet):
-#     """
-#     Provides full CRUD operations for Item:
-#     - List (GET /api/items/)
-#     - Create (POST /api/items/)
-#     - Retrieve (GET /api/items/<id>/)
-#     - Update (PUT /api/items/<id>/)
-#     - Delete (DELETE /api/items/<id>/)
-#     - Filtering by category, searching by name
-#     """
-#     queryset = Item.objects.all()
-#     serializer_class = ItemSerializer
-#     filter_backends = [DjangoFilterBackend, SearchFilter]
-    
-#     # Enables filtering by category (Exact match)
-#     filterset_fields = ['category']
-    
-#     # Enables searching by name (Partial match)
-#     search_fields = ['name']
-
+ 
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -106,3 +78,4 @@ class ItemDetailView(APIView):
         item.delete()
         return Response({"message": "Item deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
 
+ 

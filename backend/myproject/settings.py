@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
-
+import dj_database_url
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -90,6 +90,10 @@ DATABASES = {
         'PORT': '5432',        # Default PostgreSQL port
     }
 }
+
+DATABASES['default']=dj_database_url.parse("postgresql://crud_back_db_user:SK6X4qm2AHO538rS5XlA4UcDJYCe8QJg@dpg-cvmpt07fte5s739b8fog-a.oregon-postgres.render.com/crud_back_db")
+#Database
+
 
 
 # Password validation
