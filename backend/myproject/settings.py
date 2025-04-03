@@ -10,8 +10,9 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
-from pathlib import Path
 import dj_database_url
+from pathlib import Path
+import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -20,12 +21,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-ism_&m#y6&(+ijd@8%(!@nfb%v-z(@yz(hsh4w@#6(b$xq5vc&'
+SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get("DEBUG","False")=="true"
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'enchanting-moonbeam-1c0b9c.netlify.app']
+ALLOWED_HOSTS =  os.environ.get("ALLOWED_HOSTS").split(" ")
 
 
 
@@ -72,12 +73,12 @@ TEMPLATES = [
             ],
         },
     },
-]
+] 
 
 WSGI_APPLICATION = 'myproject.wsgi.application'
 
 
-# Database
+# Database 
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
@@ -91,7 +92,9 @@ DATABASES = {
     }
 }
 
-DATABASES['default']=dj_database_url.parse("postgresql://crud_back_db_user:SK6X4qm2AHO538rS5XlA4UcDJYCe8QJg@dpg-cvmpt07fte5s739b8fog-a.oregon-postgres.render.com/crud_back_db")
+database_url = os.environ.get("DATABASE_URL")
+
+DATABASES['default']=dj_database_url.parse(database_url)
 #Database
 
 
